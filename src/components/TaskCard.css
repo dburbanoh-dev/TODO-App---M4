@@ -1,3 +1,120 @@
+/* Tarjeta individual */
+.task-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s ease-in-out;
+}
+
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+}
+
+.task-card.completed {
+    border-left: 4px solid #10b981;
+}
+
+/* Contenido */
+.task-content {
+    margin-bottom: 0.75rem;
+}
+
+.task-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+    word-break: break-word;
+}
+
+.task-card.completed .task-title {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+.task-description {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* Badges de estado */
+.status-badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-pending {
+    background-color: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #ffedd5;
+}
+
+.status-completed {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #d1fae5;
+}
+
+/* Acciones y botones */
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.btn-toggle,
+.btn-delete {
+    flex: 1;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-toggle:active,
+.btn-delete:active {
+    transform: scale(0.98);
+}
+
+.btn-toggle {
+    background-color: #f1f5f9;
+    color: #334155;
+}
+
+.btn-toggle:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.btn-delete {
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.btn-delete:hover {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
 /* Fila superior con título y fecha */
 .task-header-row {
     display: flex;
