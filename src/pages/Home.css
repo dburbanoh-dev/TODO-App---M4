@@ -1,0 +1,58 @@
+.home {
+    min-height: 100vh;
+    padding: 30px 20px 50px;
+    background: #f4f6f8;
+}
+
+.home-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.home-title {
+    margin: 0;
+    font-size: 32px;
+    color: #111827;
+}
+
+.logout-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #dc2626;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.logout-button:hover {
+    background: #b91c1c;
+}
+
+@media (max-width: 600px) {
+    .home {
+        padding: 20px 15px 40px;
+    }
+
+    .home-header {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .home-title {
+        font-size: 27px;
+    }
+
+    .logout-button {
+        padding: 9px 13px;
+        font-size: 13px;
+    }
+}

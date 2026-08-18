@@ -1,0 +1,26 @@
+.task-list-section {
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.25rem;
+}
+
+/* Grid forzado a 2 columnas principales */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    width: 100%;
+}
+
+/* Ajuste a 1 columna para pantallas pequeñas */
+@media (max-width: 640px) {
+    .task-grid {
+        grid-template-columns: 1fr;
+    }
+}
