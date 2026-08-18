@@ -1,45 +1,83 @@
-.task-form {
-    background: white;
-    padding: 24px;
+.task-form-card {
+    background-color: #ffffff;
     border-radius: 12px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.75rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    margin-bottom: 2.5rem;
 }
 
-.task-form-fields {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.task-form input,
-.task-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    outline: none;
-}
-
-.task-form textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-.task-form input:focus,
-.task-form textarea:focus {
-    border-color: #2563eb;
-}
-
-.task-form button {
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
+.form-title {
+    font-size: 1.125rem;
     font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.25rem 0;
 }
 
-.task-form button:hover {
-    background: #1d4ed8;
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.925rem;
+    color: #0f172a;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: #94a3b8;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+}
+
+.btn-submit {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background-color: #1d4ed8;
+}
+
+.btn-submit:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.btn-submit:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.7;
 }

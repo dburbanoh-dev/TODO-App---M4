@@ -1,5 +1,4 @@
-import { useState } from "react"
-import type { FormEvent } from "react"
+import { useState, type FormEvent } from "react"
 import "./TaskForm.css"
 
 interface TaskFormProps {
@@ -10,33 +9,50 @@ function TaskForm({ onAddTask }: TaskFormProps) {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        onAddTask(title, description)
+    function handleSubmit(e: FormEvent) {
+        e.preventDefault()
+        if (!title.trim()) return
 
+        onAddTask(title.trim(), description.trim())
         setTitle("")
         setDescription("")
     }
 
     return (
-        <div className="task-form">
-            <form onSubmit={handleSubmit}>
-                <div className="task-form-fields">
-                    <input type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Titulo"
-                    />
-                    <textarea
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Descripcion"
-                    />
-                </div>
+        <form className="task-form-card" onSubmit={handleSubmit}>
+            <h2 className="form-title">Crear nueva tarea</h2>
 
-                <button type="submit">Add Task</button>
-            </form>
-        </div>
+            <div className="form-group">
+                <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Título de la tarea..."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
+            </div>
+
+            <div className="form-group">
+                <textarea
+                    className="form-textarea"
+                    placeholder="Descripción (opcional)..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                />
+            </div>
+
+            <div className="form-actions">
+                <button
+                    type="submit"
+                    className="btn-submit"
+                    disabled={!title.trim()}
+                >
+                    Añadir tarea
+                </button>
+            </div>
+        </form>
     )
 }
 

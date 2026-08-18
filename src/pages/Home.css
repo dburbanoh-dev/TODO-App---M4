@@ -1,11 +1,11 @@
 .home {
     min-height: 100vh;
-    padding: 30px 20px 50px;
-    background: #f4f6f8;
+    padding: 2.5rem 1.5rem 4rem;
+    background-color: #f8fafc;
 }
 
 .home-container {
-    max-width: 1100px;
+    max-width: 960px;
     margin: 0 auto;
 }
 
@@ -13,46 +13,52 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .home-title {
     margin: 0;
-    font-size: 32px;
-    color: #111827;
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.025em;
 }
 
 .logout-button {
-    padding: 10px 18px;
-    border: none;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid #fee2e2;
     border-radius: 8px;
-    background: #dc2626;
-    color: white;
+    background-color: #fef2f2;
+    color: #dc2626;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
 .logout-button:hover {
-    background: #b91c1c;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-color: #fca5a5;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
     .home {
-        padding: 20px 15px 40px;
+        padding: 1.5rem 1rem 3rem;
     }
 
     .home-header {
-        align-items: flex-start;
-        gap: 15px;
+        margin-bottom: 1.5rem;
     }
 
     .home-title {
-        font-size: 27px;
+        font-size: 1.5rem;
     }
 
     .logout-button {
-        padding: 9px 13px;
-        font-size: 13px;
+        padding: 0.5rem 0.875rem;
+        font-size: 0.8rem;
     }
 }
