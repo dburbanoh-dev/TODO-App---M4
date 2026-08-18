@@ -16,7 +16,7 @@ function TaskList({
     return (
         <div className="task-list-section">
             <h2 className="section-title">
-                Mis tareas
+                Mis tareas...
             </h2>
 
             <div className="task-grid">

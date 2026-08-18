@@ -12,13 +12,16 @@ function TaskCard({
     onDelete,
     onToggleComplete,
 }: TaskCardProps) {
-    // Convierte 'createdAt' a objeto Date si viene como string desde localStorage
     const dateObj = new Date(task.createdAt)
 
-    const formattedDate = dateObj.toLocaleDateString("es-ES", {
+    // Formateamos para incluir fecha y hora en formato 12 horas (a. m. / p. m.)
+    const formattedDateTime = dateObj.toLocaleString("es-ES", {
         day: "numeric",
-        month: "long",
-        year: "numeric"
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
     })
 
     return (
@@ -26,7 +29,7 @@ function TaskCard({
             <div className="task-content">
                 <div className="task-header-row">
                     <h3 className="task-title">{task.title}</h3>
-                    <span className="task-date">{formattedDate}</span>
+                    <span className="task-date">{formattedDateTime}</span>
                 </div>
 
                 <p className="task-description">{task.description}</p>

@@ -10,6 +10,12 @@ import "./Home.css"
 function Home() {
     const navigate = useNavigate()
 
+    // Obtener información del usuario autenticado en Firebase
+    const currentUser = auth.currentUser
+    const userName = currentUser?.displayName
+        ? currentUser.displayName.split(" ")[0]
+        : "Bienvenido"
+
     // 1. Cargar las tareas guardadas en localStorage al iniciar
     const [tasks, setTasks] = useState<Task[]>(() => {
         const savedTasks = localStorage.getItem("tasks")
@@ -35,8 +41,6 @@ function Home() {
     }, [tasks])
 
     function handleAddTask(title: string, description: string) {
-        const currentUser = auth.currentUser
-
         const newTask: Task = {
             id: crypto.randomUUID(),
             title: title,
@@ -82,9 +86,14 @@ function Home() {
             <div className="home-container">
 
                 <div className="home-header">
-                    <h1 className="home-title">
-                        Mis tareas
-                    </h1>
+                    <div className="home-header-info">
+                        <h1 className="home-title">
+                            ¡Hola, {userName}! 👋
+                        </h1>
+                        <p className="home-subtitle">
+                            Organiza y gestiona tus actividades del día
+                        </p>
+                    </div>
 
                     <button
                         className="logout-button"
