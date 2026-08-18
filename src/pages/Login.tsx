@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState, type FormEvent } from "react"
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
-import { auth, googleProvider } from "../services/firebase.ts"
+import { auth, googleProvider } from "../services/firebase"
 import "./Login.css"
 
 function Login() {
@@ -9,11 +9,23 @@ function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false) // Estado para controlar el spinner / deshabilitar botones
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setError("")
+
+        // Validaciones personalizadas
+        if (!email.trim()) {
+            setError("Por favor, ingresa tu correo electrónico.")
+            return
+        }
+
+        if (!password.trim()) {
+            setError("Por favor, ingresa tu contraseña.")
+            return
+        }
+
         setLoading(true)
 
         try {
@@ -21,7 +33,23 @@ function Login() {
             navigate("/home")
         } catch (err: any) {
             console.error("Error al iniciar sesión:", err)
-            setError("Correo o contraseña incorrectos.")
+
+            // Mapeo preciso de errores de Firebase
+            switch (err.code) {
+                case "auth/invalid-credential":
+                case "auth/user-not-found":
+                case "auth/wrong-password":
+                    setError("El correo o la contraseña son incorrectos.")
+                    break
+                case "auth/invalid-email":
+                    setError("El correo electrónico ingresado no es válido.")
+                    break
+                case "auth/too-many-requests":
+                    setError("Demasiados intentos fallidos. Inténtalo más tarde.")
+                    break
+                default:
+                    setError("Ocurrió un error al iniciar sesión. Inténtalo de nuevo.")
+            }
         } finally {
             setLoading(false)
         }
@@ -36,7 +64,6 @@ function Login() {
             await signInWithPopup(auth, googleProvider)
             navigate("/home")
         } catch (err: any) {
-            // Ignorar el error si el usuario cierra la ventana o da clic muy rápido
             if (err.code === 'auth/cancelled-popup-request' || err.code === 'auth/popup-closed-by-user') {
                 return
             }
@@ -57,23 +84,21 @@ function Login() {
     return (
         <div className="login-page">
             <div className="login-card">
-
                 <h1>Iniciar sesión</h1>
 
                 <p className="login-subtitle">
                     Ingresa a tu cuenta para gestionar tus tareas
                 </p>
 
-                {error && <p className="error-message" style={{ color: "red", fontSize: "0.85rem", marginBottom: "1rem" }}>{error}</p>}
+                {error && <div className="error-box">{error}</div>}
 
-                <form className="login-form" onSubmit={handleSubmit}>
+                <form className="login-form" onSubmit={handleSubmit} noValidate>
                     <input
                         type="email"
                         placeholder="Correo electrónico"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={loading}
-                        required
                     />
 
                     <input
@@ -82,7 +107,6 @@ function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         disabled={loading}
-                        required
                     />
 
                     <button className="login-button" type="submit" disabled={loading}>
@@ -98,7 +122,7 @@ function Login() {
                     type="button"
                     className="google-button"
                     onClick={handleGoogleLogin}
-                    disabled={loading} /* Deshabilita el botón mientras carga */
+                    disabled={loading}
                 >
                     <svg className="google-icon" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -112,7 +136,6 @@ function Login() {
                 <p className="login-register">
                     ¿No tienes una cuenta? <Link to="/register">Registrarse</Link>
                 </p>
-
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState, type FormEvent } from "react"
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from "firebase/auth"
-import { auth, googleProvider } from "../services/firebase.ts"
+import { auth, googleProvider } from "../services/firebase"
 import "./Register.css"
 
 function Register() {
@@ -10,10 +10,34 @@ function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setError("")
+
+        // Validaciones personalizadas
+        if (!name.trim()) {
+            setError("Por favor, ingresa tu nombre completo.")
+            return
+        }
+
+        if (!email.trim()) {
+            setError("Por favor, ingresa un correo electrónico.")
+            return
+        }
+
+        if (!password.trim()) {
+            setError("Por favor, ingresa una contraseña.")
+            return
+        }
+
+        if (password.length < 6) {
+            setError("La contraseña debe tener al menos 6 caracteres.")
+            return
+        }
+
+        setLoading(true)
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
@@ -25,16 +49,38 @@ function Register() {
             navigate("/home")
         } catch (err: any) {
             console.error("Error al registrar usuario:", err)
-            setError("No se pudo crear la cuenta. Revisa los datos ingresados.")
+
+            switch (err.code) {
+                case "auth/email-already-in-use":
+                    setError("Este correo electrónico ya está registrado. Intenta iniciar sesión.")
+                    break
+                case "auth/invalid-email":
+                    setError("El correo electrónico ingresado no es válido.")
+                    break
+                case "auth/weak-password":
+                    setError("La contraseña es muy débil. Debe tener al menos 6 caracteres.")
+                    break
+                default:
+                    setError("No se pudo crear la cuenta. Revisa los datos e inténtalo de nuevo.")
+            }
+        } finally {
+            setLoading(false)
         }
     }
 
     async function handleGoogleRegister() {
+        if (loading) return
         setError("")
+        setLoading(true)
+
         try {
             await signInWithPopup(auth, googleProvider)
             navigate("/home")
         } catch (err: any) {
+            if (err.code === 'auth/cancelled-popup-request' || err.code === 'auth/popup-closed-by-user') {
+                return
+            }
+
             console.error("Error al registrarse con Google:", err)
             if (err.code === 'auth/popup-blocked') {
                 setError("Tu navegador bloqueó la ventana emergente. Por favor, permítela.")
@@ -43,28 +89,29 @@ function Register() {
             } else {
                 setError("No se pudo registrar con Google.")
             }
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
         <div className="register-page">
             <div className="register-card">
-
                 <h1>Crear cuenta</h1>
 
                 <p className="register-subtitle">
                     Regístrate para comenzar a gestionar tus tareas
                 </p>
 
-                {error && <p className="error-message" style={{ color: "red", fontSize: "0.85rem", marginBottom: "1rem" }}>{error}</p>}
+                {error && <div className="error-box">{error}</div>}
 
-                <form className="register-form" onSubmit={handleSubmit}>
+                <form className="register-form" onSubmit={handleSubmit} noValidate>
                     <input
                         type="text"
-                        placeholder="Nombre"
+                        placeholder="Nombre completo"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        required
+                        disabled={loading}
                     />
 
                     <input
@@ -72,7 +119,7 @@ function Register() {
                         placeholder="Correo electrónico"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
+                        disabled={loading}
                     />
 
                     <input
@@ -80,11 +127,11 @@ function Register() {
                         placeholder="Contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
+                        disabled={loading}
                     />
 
-                    <button className="register-button" type="submit">
-                        Crear cuenta
+                    <button className="register-button" type="submit" disabled={loading}>
+                        {loading ? "Creando cuenta..." : "Crear cuenta"}
                     </button>
                 </form>
 
@@ -96,6 +143,7 @@ function Register() {
                     type="button"
                     className="google-button"
                     onClick={handleGoogleRegister}
+                    disabled={loading}
                 >
                     <svg className="google-icon" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -103,13 +151,12 @@ function Register() {
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                     </svg>
-                    Registrarse con Google
+                    {loading ? "Registrando..." : "Registrarse con Google"}
                 </button>
 
                 <p className="register-login">
                     ¿Ya tienes una cuenta? <Link to="/login">Iniciar sesión</Link>
                 </p>
-
             </div>
         </div>
     )

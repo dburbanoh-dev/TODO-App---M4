@@ -24,9 +24,36 @@
 }
 
 .register-subtitle {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-align: center;
     color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* Caja del mensaje de error personalizado */
+.error-box {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .register-form {
@@ -41,11 +68,19 @@
     border: 1px solid #d1d5db;
     border-radius: 8px;
     outline: none;
-    transition: border-color 0.2s;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
 }
 
 .register-form input:focus {
     border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.register-form input:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
 }
 
 .register-button {
@@ -55,19 +90,79 @@
     border-radius: 8px;
     background: #2563eb;
     color: white;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, opacity 0.2s;
 }
 
-.register-button:hover {
+.register-button:hover:not(:disabled) {
     background: #1d4ed8;
 }
 
+.register-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.25rem 0;
+    color: #888;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.divider span {
+    padding: 0 10px;
+    font-size: 0.85rem;
+}
+
+.google-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #ffffff;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    margin-bottom: 1.25rem;
+}
+
+.google-button:hover:not(:disabled) {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+}
+
+.google-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+}
+
 .register-login {
-    margin-top: 25px;
+    margin-top: 15px;
     text-align: center;
     color: #6b7280;
+    font-size: 0.9rem;
 }
 
 .register-login a {
