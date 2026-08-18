@@ -12,10 +12,23 @@ function TaskCard({
     onDelete,
     onToggleComplete,
 }: TaskCardProps) {
+    // Convierte 'createdAt' a objeto Date si viene como string desde localStorage
+    const dateObj = new Date(task.createdAt)
+
+    const formattedDate = dateObj.toLocaleDateString("es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    })
+
     return (
         <div className={`task-card ${task.completed ? "completed" : ""}`}>
             <div className="task-content">
-                <h3 className="task-title">{task.title}</h3>
+                <div className="task-header-row">
+                    <h3 className="task-title">{task.title}</h3>
+                    <span className="task-date">{formattedDate}</span>
+                </div>
+
                 <p className="task-description">{task.description}</p>
             </div>
 
