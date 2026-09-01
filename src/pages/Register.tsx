@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState, type FormEvent } from "react"
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from "firebase/auth"
 import { auth, googleProvider } from "../services/firebase"
+import { getFirebaseErrorCode } from "../services/errorUtils"
 import "./Register.css"
 
 function Register() {
@@ -47,10 +48,11 @@ function Register() {
             }
 
             navigate("/home")
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Error al registrar usuario:", err)
 
-            switch (err.code) {
+            const code = getFirebaseErrorCode(err)
+            switch (code) {
                 case "auth/email-already-in-use":
                     setError("Este correo electrónico ya está registrado. Intenta iniciar sesión.")
                     break
@@ -76,15 +78,16 @@ function Register() {
         try {
             await signInWithPopup(auth, googleProvider)
             navigate("/home")
-        } catch (err: any) {
-            if (err.code === 'auth/cancelled-popup-request' || err.code === 'auth/popup-closed-by-user') {
+        } catch (err: unknown) {
+            const code = getFirebaseErrorCode(err)
+            if (code === 'auth/cancelled-popup-request' || code === 'auth/popup-closed-by-user') {
                 return
             }
 
             console.error("Error al registrarse con Google:", err)
-            if (err.code === 'auth/popup-blocked') {
+            if (code === 'auth/popup-blocked') {
                 setError("Tu navegador bloqueó la ventana emergente. Por favor, permítela.")
-            } else if (err.code === 'auth/unauthorized-domain') {
+            } else if (code === 'auth/unauthorized-domain') {
                 setError("El dominio actual no está autorizado en Firebase Console.")
             } else {
                 setError("No se pudo registrar con Google.")

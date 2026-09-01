@@ -4,23 +4,29 @@
 }
 
 .section-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: #1e293b;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
 }
 
-/* Grid forzado a 2 columnas principales */
+/* Enfoque Mobile-First: Estado base para móviles (1 columna) */
 .task-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
     width: 100%;
 }
 
-/* Ajuste a 1 columna para pantallas pequeñas */
-@media (max-width: 640px) {
+/* Adaptación para pantallas más grandes (min-width: 640px) */
+@media (min-width: 640px) {
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+
     .task-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
     }
 }

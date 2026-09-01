@@ -1,14 +1,13 @@
-/* Importar fuente moderna desde Google Fonts (Opcional pero recomendado) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* Enfoque Mobile-First: Estilos base para dispositivos móviles */
 .login-page {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 16px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    /* Fondo con gradiente moderno y suave */
     background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 50%, #dbefe3 100%);
     box-sizing: border-box;
 }
@@ -16,11 +15,10 @@
 .login-card {
     width: 100%;
     max-width: 420px;
-    padding: 40px 36px;
+    padding: 28px 20px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    /* Efecto cristal */
-    border-radius: 20px;
+    border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12),
         0 10px 20px -5px rgba(0, 0, 0, 0.04);
@@ -35,20 +33,19 @@
     margin: 0 0 8px 0;
     text-align: center;
     color: #0f172a;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
     letter-spacing: -0.025em;
 }
 
 .login-subtitle {
-    margin: 0 0 28px 0;
+    margin: 0 0 24px 0;
     text-align: center;
     color: #64748b;
-    font-size: 0.925rem;
+    font-size: 0.875rem;
     line-height: 1.4;
 }
 
-/* Caja de error animada */
 .error-box {
     background-color: #fef2f2;
     border: 1px solid #fecaca;
@@ -68,7 +65,6 @@
         opacity: 0;
         transform: translateY(-8px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -78,17 +74,16 @@
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 
-/* Estilo para los Inputs */
 .login-form input {
     width: 100%;
-    padding: 14px 16px;
+    padding: 12px 14px;
     border: 1.5px solid #e2e8f0;
     border-radius: 12px;
     outline: none;
-    font-size: 0.95rem;
+    font-size: 0.925rem;
     color: #0f172a;
     background-color: #f8fafc;
     transition: all 0.2s ease;
@@ -111,16 +106,15 @@
     cursor: not-allowed;
 }
 
-/* Botón de Iniciar Sesión */
 .login-button {
     width: 100%;
-    padding: 14px;
+    padding: 13px;
     margin-top: 4px;
     border: none;
     border-radius: 12px;
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     color: #ffffff;
-    font-size: 0.975rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
@@ -143,12 +137,11 @@
     box-shadow: none;
 }
 
-/* Divisor elegante "o" */
 .divider {
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 1.5rem 0;
+    margin: 1.25rem 0;
     color: #94a3b8;
 }
 
@@ -167,7 +160,6 @@
     letter-spacing: 0.05em;
 }
 
-/* Botón de Google */
 .google-button {
     width: 100%;
     display: flex;
@@ -179,7 +171,7 @@
     border: 1.5px solid #e2e8f0;
     border-radius: 12px;
     padding: 12px 16px;
-    font-size: 0.95rem;
+    font-size: 0.925rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -204,12 +196,11 @@
     height: 20px;
 }
 
-/* Enlace a Registro */
 .login-register {
-    margin-top: 24px;
+    margin-top: 20px;
     text-align: center;
     color: #64748b;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
 }
 
 .login-register a {
@@ -222,4 +213,52 @@
 .login-register a:hover {
     color: #1d4ed8;
     text-decoration: underline;
+}
+
+/* Mejoras para escritorio y pantallas más grandes (min-width: 640px) */
+@media (min-width: 640px) {
+    .login-page {
+        padding: 20px;
+    }
+
+    .login-card {
+        padding: 40px 36px;
+        border-radius: 20px;
+    }
+
+    .login-card h1 {
+        font-size: 28px;
+    }
+
+    .login-subtitle {
+        margin-bottom: 28px;
+        font-size: 0.925rem;
+    }
+
+    .login-form {
+        gap: 18px;
+    }
+
+    .login-form input {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+    }
+
+    .login-button {
+        padding: 14px;
+        font-size: 0.975rem;
+    }
+
+    .divider {
+        margin: 1.5rem 0;
+    }
+
+    .google-button {
+        font-size: 0.95rem;
+    }
+
+    .login-register {
+        margin-top: 24px;
+        font-size: 0.9rem;
+    }
 }

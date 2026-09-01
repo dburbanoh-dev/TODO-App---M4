@@ -1,6 +1,11 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Home from '../pages/Home'
+import type { Task } from '../types/task'
+
+// State en memoria para simular Firestore en los tests
+let mockTasksStore: Task[] = []
+let mockListeners: Array<(tasks: Task[]) => void> = []
 
 // Mock react-router-dom
 const mockNavigate = vi.fn()
@@ -19,12 +24,51 @@ vi.mock('../services/firebase.ts', () => ({
 }))
 
 vi.mock('firebase/auth', () => ({
-    signOut: vi.fn().mockResolvedValue(undefined)
+    signOut: vi.fn().mockResolvedValue(undefined),
+    onAuthStateChanged: vi.fn((_auth, callback) => {
+        callback({ uid: 'test-uid-123', displayName: 'Juan Pérez' })
+        return vi.fn()
+    })
 }))
 
-describe('Home Page (Integración)', () => {
+// Mock de servicios de tareas de Firestore
+vi.mock('../services/taskService.ts', () => ({
+    subscribeTasks: vi.fn((_userId: string, callback: (tasks: Task[]) => void) => {
+        mockListeners.push(callback)
+        callback([...mockTasksStore])
+        return vi.fn(() => {
+            mockListeners = mockListeners.filter((l) => l !== callback)
+        })
+    }),
+    addTask: vi.fn(async (userId: string, title: string, description: string) => {
+        const newTask: Task = {
+            id: 'task-' + Math.random().toString(36).substr(2, 9),
+            userId,
+            title,
+            description,
+            completed: false,
+            createdAt: new Date(),
+        }
+        mockTasksStore.unshift(newTask)
+        mockListeners.forEach((cb) => cb([...mockTasksStore]))
+        return newTask.id
+    }),
+    toggleTaskComplete: vi.fn(async (taskId: string, currentCompleted: boolean) => {
+        mockTasksStore = mockTasksStore.map((t) =>
+            t.id === taskId ? { ...t, completed: !currentCompleted } : t
+        )
+        mockListeners.forEach((cb) => cb([...mockTasksStore]))
+    }),
+    deleteTask: vi.fn(async (taskId: string) => {
+        mockTasksStore = mockTasksStore.filter((t) => t.id !== taskId)
+        mockListeners.forEach((cb) => cb([...mockTasksStore]))
+    }),
+}))
+
+describe('Home Page (Integración con Firestore)', () => {
     beforeEach(() => {
-        localStorage.clear()
+        mockTasksStore = []
+        mockListeners = []
         vi.clearAllMocks()
     })
 
@@ -33,7 +77,7 @@ describe('Home Page (Integración)', () => {
         expect(screen.getByText(/¡Hola, Juan! 👋/i)).toBeInTheDocument()
     })
 
-    it('permite crear una nueva tarea y la muestra en la lista', () => {
+    it('permite crear una nueva tarea y la sincroniza en Firestore', async () => {
         render(<Home />)
 
         const titleInput = screen.getByPlaceholderText(/título de la tarea/i)
@@ -44,55 +88,72 @@ describe('Home Page (Integración)', () => {
         fireEvent.change(descInput, { target: { value: 'Comprar café y fruta' } })
         fireEvent.click(submitBtn)
 
-        expect(screen.getByText('Comprar insumos')).toBeInTheDocument()
-        expect(screen.getByText('Comprar café y fruta')).toBeInTheDocument()
-        expect(screen.getByText('Pendiente')).toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.getByText('Comprar insumos')).toBeInTheDocument()
+            expect(screen.getByText('Comprar café y fruta')).toBeInTheDocument()
+            expect(screen.getByText('Pendiente')).toBeInTheDocument()
+        })
     })
 
-    it('permite cambiar el estado de completada de una tarea', () => {
+    it('permite cambiar el estado de completada de una tarea en Firestore', async () => {
         render(<Home />)
 
         // Crear tarea
         fireEvent.change(screen.getByPlaceholderText(/título de la tarea/i), { target: { value: 'Estudiar para el examen' } })
         fireEvent.click(screen.getByRole('button', { name: /añadir tarea/i }))
 
+        await waitFor(() => {
+            expect(screen.getByText('Estudiar para el examen')).toBeInTheDocument()
+        })
+
         const toggleBtn = screen.getByRole('button', { name: /marcar como completada/i })
         fireEvent.click(toggleBtn)
 
-        expect(screen.getByText('Completada')).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: /marcar como pendiente/i })).toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.getByText('Completada')).toBeInTheDocument()
+            expect(screen.getByRole('button', { name: /marcar como pendiente/i })).toBeInTheDocument()
+        })
     })
 
-    it('permite eliminar una tarea de la lista', () => {
+    it('permite eliminar una tarea de Firestore', async () => {
         render(<Home />)
 
         // Crear tarea
         fireEvent.change(screen.getByPlaceholderText(/título de la tarea/i), { target: { value: 'Tarea a borrar' } })
         fireEvent.click(screen.getByRole('button', { name: /añadir tarea/i }))
 
-        expect(screen.getByText('Tarea a borrar')).toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.getByText('Tarea a borrar')).toBeInTheDocument()
+        })
 
         const deleteBtn = screen.getByRole('button', { name: /eliminar/i })
         fireEvent.click(deleteBtn)
 
-        expect(screen.queryByText('Tarea a borrar')).not.toBeInTheDocument()
+        await waitFor(() => {
+            expect(screen.queryByText('Tarea a borrar')).not.toBeInTheDocument()
+        })
     })
 
-    it('persiste las tareas en localStorage', () => {
+    it('sincroniza dinámicamente la lista de tareas en tiempo real desde Firestore', async () => {
         const { unmount } = render(<Home />)
 
-        fireEvent.change(screen.getByPlaceholderText(/título de la tarea/i), { target: { value: 'Tarea Persistente' } })
+        fireEvent.change(screen.getByPlaceholderText(/título de la tarea/i), { target: { value: 'Tarea Persistente Firestore' } })
         fireEvent.click(screen.getByRole('button', { name: /añadir tarea/i }))
 
-        // Verificar que localStorage tiene la tarea
-        const savedInStorage = JSON.parse(localStorage.getItem('tasks') || '[]')
-        expect(savedInStorage.length).toBe(1)
-        expect(savedInStorage[0].title).toBe('Tarea Persistente')
+        await waitFor(() => {
+            expect(screen.getByText('Tarea Persistente Firestore')).toBeInTheDocument()
+        })
+
+        expect(mockTasksStore.length).toBe(1)
+        expect(mockTasksStore[0].title).toBe('Tarea Persistente Firestore')
 
         unmount()
 
-        // Volver a renderizar para comprobar la recuperación de localStorage
+        // Re-renderizar componente para verificar recuperación de la suscripción Firestore
         render(<Home />)
-        expect(screen.getByText('Tarea Persistente')).toBeInTheDocument()
+
+        await waitFor(() => {
+            expect(screen.getByText('Tarea Persistente Firestore')).toBeInTheDocument()
+        })
     })
 })

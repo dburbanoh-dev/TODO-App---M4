@@ -1,17 +1,18 @@
+/* Enfoque Mobile-First: Base para móviles */
 .task-form-card {
     background-color: #ffffff;
     border-radius: 12px;
-    padding: 1.75rem;
+    padding: 1.25rem;
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .form-title {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #1e293b;
-    margin: 0 0 1.25rem 0;
+    margin: 0 0 1rem 0;
 }
 
 .form-group {
@@ -53,12 +54,13 @@
 .form-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
 }
 
 .btn-submit {
-    padding: 0.65rem 1.25rem;
-    font-size: 0.875rem;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #ffffff;
     background-color: #2563eb;
@@ -80,4 +82,27 @@
     background-color: #94a3b8;
     cursor: not-allowed;
     opacity: 0.7;
+}
+
+/* Adaptación para pantallas de escritorio (min-width: 640px) */
+@media (min-width: 640px) {
+    .task-form-card {
+        padding: 1.75rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .form-title {
+        font-size: 1.125rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .form-actions {
+        margin-top: 1.25rem;
+    }
+
+    .btn-submit {
+        width: auto;
+        padding: 0.65rem 1.25rem;
+        font-size: 0.875rem;
+    }
 }
