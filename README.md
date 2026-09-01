@@ -1,6 +1,6 @@
 # TODO App - Aplicación de Gestión de Tareas
 
-Una aplicación web moderna, ágil y reactiva para la gestión de tareas personales, desarrollada con **React 19**, **TypeScript** y **Vite**, e integrada con **Firebase** para la autenticación de usuarios y persistencia en tiempo real con **Cloud Firestore**.
+Una aplicación web moderna, ágil y reactiva para la gestión de tareas personales, desarrollada con **React**, **TypeScript** y **Vite**, e integrada con **Firebase** para la autenticación de usuarios y persistencia en tiempo real con **Cloud Firestore**.
 
 ---
 
@@ -59,7 +59,7 @@ src/
 ### 1. Clonar el repositorio e instalar dependencias
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone <https://github.com/dburbanoh-dev/TODO-App---M4.git>
 cd "PI M4 TODO App"
 pnpm install # o npm install
 ```
@@ -95,10 +95,10 @@ En el proyecto puedes ejecutar los siguientes comandos:
 
 ## 🌐 Deploy en Producción
 
-### Pasos para Desplegar en Vercel / Netlify / Firebase Hosting:
+### Pasos para Desplegar en Vercel / Firebase Hosting:
 
 1. **Configuración de Variables de Entorno en Producción**:
-   - En el panel del proveedor de hosting (ej. Vercel / Netlify), agrega las variables definidas en tu `.env`:
+   - En el panel del proveedor de hosting (ej. Vercel), agrega las variables definidas en tu `.env`:
      - `VITE_FIREBASE_API_KEY`
      - `VITE_FIREBASE_AUTH_DOMAIN`
      - `VITE_FIREBASE_PROJECT_ID`
@@ -120,7 +120,7 @@ En el proyecto puedes ejecutar los siguientes comandos:
 
 ## 🤖 Uso Crítico y Responsable de Inteligencia Artificial
 
-Durante el proceso de desarrollo y refactorización técnica de este proyecto, se emplearon herramientas de Inteligencia Artificial (IA) generativa como asistentes de programación par (pair programming). A continuación se documenta el enfoque de uso responsable, la metodología de revisión y las salvaguardas aplicadas:
+Durante el proceso de desarrollo y refactorización técnica de este proyecto, se emplearon herramientas de Inteligencia Artificial (IA) generativa como asistentes de programación. A continuación se documenta el enfoque de uso responsable, la metodología de revisión y las salvaguardas aplicadas:
 
 ### 1. Ámbitos de Aplicación de la IA
 - **Estructuración y Refactorización**: Asistencia en la transición del almacenamiento local a la arquitectura en tiempo real con Firestore (`taskService.ts`) y la implementación del componente de protección de rutas (`<ProtectedRoute>`).
@@ -129,14 +129,9 @@ Durante el proceso de desarrollo y refactorización técnica de este proyecto, s
 
 ### 2. Análisis y Validación Humana Crítica
 - **Revisión de Código**: Todo snippet o solución sugerida por la IA fue auditado manualmente para garantizar que cumpliera estrictamente con los requisitos de la rúbrica (enfoque Mobile-First, separación modular de responsabilidades y contratos de API).
-- **Prevención de Alucinaciones**: Se verificó la validez de los métodos importados de Firebase v11/v10 (tales como `onSnapshot`, `addDoc`, `updateDoc`, `deleteDoc`) comprobando la documentación oficial y ejecutando `pnpm test` y `pnpm build`.
 
 ### 3. Aspectos Éticos, Seguridad y Privacidad
 - **Protección de Credenciales**: Nunca se introdujeron claves de API, tokens ni información sensible en los prompts. Las variables de entorno permanecieron aisladas en archivos `.env` no subidos al control de versiones.
 - **Autonomía y Aprendizaje**: La IA se utilizó como un catalizador de productividad y herramienta de consulta técnica, asegurando que las decisiones de diseño y la comprensión conceptual de la arquitectura pertenezcan íntegramente al desarrollador.
 
 ---
-
-## 📄 Licencia
-
-Este proyecto está bajo la licencia MIT.
