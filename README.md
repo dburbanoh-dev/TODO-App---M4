@@ -1,6 +1,6 @@
 # TODO App - Aplicación de Gestión de Tareas
 
-🌐 **Demostración en Producción**: [https://todo-app-m4-28t8.vercel.app](https://todo-app-m4-28t8.vercel.app)
+🌐 **Demostración en Producción**: [https://todo-app-m4-28t8.vercel.app]
 
 Una aplicación web moderna, ágil y reactiva para la gestión de tareas personales, desarrollada con **React**, **TypeScript** y **Vite**, e integrada con **Firebase** para la autenticación de usuarios y persistencia en tiempo real con **Cloud Firestore**.
 
