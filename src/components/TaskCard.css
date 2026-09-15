@@ -1,23 +1,26 @@
-/* Tarjeta individual */
+/* Tarjeta individual en Tema Oscuro */
 .task-card {
-    background-color: #fcfcfc;
-    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
     padding: 1.25rem;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .task-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.1);
 }
 
 .task-card.completed {
     border-left: 4px solid #10b981;
+    background: rgba(15, 23, 42, 0.65);
 }
 
 /* Contenido */
@@ -25,24 +28,39 @@
     margin-bottom: 0.75rem;
 }
 
+.task-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .task-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #0f172a;
-    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 0;
     word-break: break-word;
 }
 
 .task-card.completed .task-title {
     text-decoration: line-through;
-    color: #94a3b8;
+    color: #64748b;
+}
+
+.task-date {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 500;
+    white-space: nowrap;
 }
 
 .task-description {
-    font-size: 0.9rem;
-    color: #64748b;
-    margin: 0;
-    line-height: 1.4;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.45;
     word-break: break-word;
 }
 
@@ -50,9 +68,9 @@
 .status-badge {
     display: inline-block;
     align-self: flex-start;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.25rem 0.6rem;
+    font-size: 0.725rem;
+    font-weight: 700;
+    padding: 0.3rem 0.7rem;
     border-radius: 9999px;
     margin-bottom: 1rem;
     text-transform: uppercase;
@@ -60,15 +78,15 @@
 }
 
 .status-pending {
-    background-color: #fff7ed;
-    color: #c2410c;
-    border: 1px solid #ffedd5;
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .status-completed {
-    background-color: #ecfdf5;
-    color: #047857;
-    border: 1px solid #d1fae5;
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 /* Acciones y botones */
@@ -81,52 +99,35 @@
 .btn-toggle,
 .btn-delete {
     flex: 1;
-    padding: 0.55rem 0.75rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    border-radius: 8px;
-    border: none;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 1px solid transparent;
     cursor: pointer;
-    transition: background-color 0.15s ease, transform 0.1s ease;
-}
-
-.btn-toggle:active,
-.btn-delete:active {
-    transform: scale(0.98);
+    transition: all 0.2s ease;
 }
 
 .btn-toggle {
-    background-color: #f1f5f9;
-    color: #334155;
+    background-color: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
 }
 
 .btn-toggle:hover {
-    background-color: #e2e8f0;
-    color: #0f172a;
+    background-color: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #60a5fa;
 }
 
 .btn-delete {
-    background-color: #fef2f2;
-    color: #dc2626;
+    background-color: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #f87171;
 }
 
 .btn-delete:hover {
-    background-color: #fee2e2;
-    color: #b91c1c;
-}
-
-/* Fila superior con título y fecha */
-.task-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.task-date {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    font-weight: 500;
-    white-space: nowrap;
+    background-color: rgba(239, 68, 68, 0.22);
+    border-color: rgba(239, 68, 68, 0.45);
+    color: #ef4444;
 }
