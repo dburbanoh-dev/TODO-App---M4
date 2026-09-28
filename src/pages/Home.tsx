@@ -1,6 +1,7 @@
 import type { Task } from "../types/task"
 import TaskList from "../components/TaskList"
 import TaskForm from "../components/TaskForm"
+import EmailSummaryButton from "../components/EmailSummaryButton"
 import { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { signOut, onAuthStateChanged, type User } from "firebase/auth"
@@ -218,6 +219,8 @@ function Home() {
                 {/* Header superior con Demo, Usuario y Salir */}
                 <header className="mate-header">
                     <div className="header-actions">
+                        <EmailSummaryButton tasks={tasks} userEmail={currentUser?.email} isLightMode={isLightMode} />
+
                         <button
                             className={`demo-badge ${isLightMode ? "mode-light" : "mode-dark"}`}
                             onClick={() => setIsLightMode((prev) => !prev)}
